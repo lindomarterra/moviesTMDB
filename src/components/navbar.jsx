@@ -1,9 +1,22 @@
+import { useState } from 'react'
 import { BsCameraVideoFill, BsSearch } from 'react-icons/bs'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+
+  const [search, setSearch]= useState('')
+  const navegate= useNavigate()
+
+  const handleSubmit= (e)=>{
+    e.preventDefault()
+
+    if(!search) return 
+    navegate(`/search?q=${search}`)
+    setSearch('')
+  }
+
   return (
-    <nav style={{ backgroundColor: '#121212' }} className="navbar">
+    <nav style={{ backgroundColor: '#121212' }} className="navbar position-fixed w-100">
       <Link to="/" target="_self">
         <div className="d-flex ms-1 logoHover pt-1 ">
           <BsCameraVideoFill className="fs-1" />
@@ -14,8 +27,10 @@ const Navbar = () => {
         </div>
       </Link>
 
-      <form style={{ width: '240px', height: '35px' }} className="d-flex me-2">
+      <form onSubmit={handleSubmit}  style={{ width: '240px', height: '35px' }} className="d-flex me-2">
         <input
+          onChange={(e)=> setSearch(e.target.value)}
+          value={search}
           type="text"
           placeholder="search"
           style={{ fontSize: '0.9rem' }}

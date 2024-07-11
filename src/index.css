@@ -25,3 +25,16 @@ a{
   color: #9e7b14;
 }
 
+.btnDetails{
+  display: block;
+  background-color: #ffc107;
+  color: #121212;
+  border: 2px solid #ffc107;
+  transition: 0.8s;
+}
+
+.btnDetails:hover{
+  color: #ffc107;
+  background-color: #121212;
+  
+}
