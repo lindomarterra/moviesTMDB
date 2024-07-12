@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+
 import MovieCard from '../components/movieCard'
+import './movie.css'
 
 import {
   BsGraphUp,
@@ -9,85 +11,68 @@ import {
   BsFillFileEarmarkTextFill,
 } from 'react-icons/bs'
 
-const movieUrl = import.meta.env.VITE_API
+const movieURL = import.meta.env.VITE_API
 const apiKey = import.meta.env.VITE_API_KEY
 
 const Movie = () => {
+  const { id } = useParams() //vai pegar os id dentro da url das rotas
   const [movie, setMovie] = useState(null)
-  const { id } = useParams()
 
   const getMovie = async (url) => {
     const res = await fetch(url)
     const data = await res.json()
+
     setMovie(data)
   }
 
-  const formatCurrency= (number) =>{
-    return number.toLocaleString("en-US", {
+  const formatCurrency = (number) => {
+    return number.toLocaleString('en-US', {
       style: 'currency',
-      currency: 'USD'
-    } )
-
+      currency: 'USD',
+    })
   }
 
   useEffect(() => {
-    const getUrlMovie = `${movieUrl}${id}?${apiKey}`
-    getMovie(getUrlMovie)
+    const movieUrl = `${movieURL}${id}?${apiKey}`
+    getMovie(movieUrl)
   }, [])
 
   return (
-    <div className="container pt-5">
-      <div className="row pt-5 d-flex justify-content-center">
-        <div className="col-md-8">
-          {movie && (
-            <>
-              <MovieCard movie={movie} showLink={false} />
-              <h5 className="py-3"> {movie.tagline} </h5>
+    <div className="movie-page">
+      {movie && (
+        <>
+          <MovieCard movie={movie} showLink={false} />
+          <p className="tagline"> {movie.tagline} </p>
 
-              <div>
-                <p className="d-flex align-items-center">
-                  <BsWallet2
-                    style={{ color: '#ffc107' }}
-                    className="fs-3 me-2"
-                  />{' '}
-                  Budget:
-                </p>
-                <p> {formatCurrency(movie.budget)} </p>
-              </div>
-              <div>
-                <p className="d-flex align-items-center">
-                  <BsGraphUp
-                    style={{ color: '#ffc107' }}
-                    className="fs-3 me-2"
-                  />{' '}
-                  Revenue:
-                </p>
-                <p> {formatCurrency(movie.revenue)} </p>
-              </div>
-              <div>
-                <p className="d-flex align-items-center">
-                  <BsHourglassSplit
-                    style={{ color: '#ffc107' }}
-                    className="fs-3 me-2"
-                  />{' '}
-                  Runtime:
-                </p>
-                <p> {movie.runtime} minuts </p>
-              </div>
-              <div>
-                <p className="d-flex align-items-center">
-                  <BsFillFileEarmarkTextFill
-                    style={{ color: '#ffc107' }}
-                    className="fs-3 me-2"
-                  />{' '}
-                  Description:
-                </p>
-                <p className='lh-lg'> {movie.overview} </p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
+          <div className="info">
+            <h3>
+              <BsWallet2 /> Budget:
+            </h3>
+            <p>{formatCurrency(movie.budget)}</p>
+          </div>
+
+          <div className="info">
+            <h3>
+              <BsGraphUp /> Revenue:
+            </h3>
+            <p>{formatCurrency(movie.revenue)}</p>
+          </div>
+
+          <div className="info">
+            <h3>
+              <BsHourglassSplit /> Runtime:
+            </h3>
+            <p>{movie.runtime} minutos </p>
+          </div>
+
+          <div className="info-discription">
+            <h3>
+              <BsFillFileEarmarkTextFill /> Description:
+            </h3>
+            <p>{movie.overview}</p>
+          </div>
+        </>
+      )}
     </div>
   )
 }

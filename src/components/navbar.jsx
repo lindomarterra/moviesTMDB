@@ -16,7 +16,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav style={{ backgroundColor: '#121212' }} className="navbar position-fixed w-100">
+    <nav style={{ backgroundColor: '#121212' }} className="navbar">
       <Link to="/" target="_self">
         <div className="d-flex ms-1 logoHover pt-1 ">
           <BsCameraVideoFill className="fs-1" />

@@ -1,48 +1,46 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
 import MovieCard from '../components/movieCard'
 
-const searchUrl = import.meta.env.VITE_SEARCH 
+const searchURL = import.meta.env.VITE_SEARCH
 const apiKey = import.meta.env.VITE_API_KEY
 
+import './movieGrid.css'
+
 const Search = () => {
+  //useSearchParams manda um array, ele deve ser desestruturado com colchetes e sem chaves
+  const [searchParams] = useSearchParams()
+  const [movies, setMovies] = useState([])
+  const query = searchParams.get('q')
 
-  const [movies, setMovies]= useState([])
-  const [ searchParams ] = useSearchParams()
-  const query= searchParams.get('q')
-  const newQuery= query.toUpperCase()
+  const getSearchedMovies = async (url) => {
+    const res = await fetch(url)
+    const data = await res.json()
 
-  const searchMovies= async (url) => {
-    const res= await fetch(url)
-    const data= await res.json()
     setMovies(data.results)
   }
+  useEffect(() => {
+    const searchWithQueryURL = `${searchURL}?${apiKey}&query=${query}`
 
-  useEffect(()=>{
-    const getSearchMovies= ` ${searchUrl}?${apiKey}&query=${query} `
-    searchMovies(getSearchMovies)
-  },[query])
-
+    getSearchedMovies(searchWithQueryURL)
+  }, [query])
 
   return (
-    <div className="container py-5 ">
-      {movies.length === 0 && <p className="fs-5 pt-5 pb-3" > Loading...</p>}
-      {movies.length > 0 && (
-        <h1 className="fs-5 pt-5 pb-3">
-          Results for: <span className="fs-3">{newQuery}</span>
-        </h1>
-      )}
+    <div className="container">
+      <h2 className="p-2 mt-3 fs-5">
+        Results for:
+        <span style={{ color: '#ffc107' }} className="text-uppercase ms-2">
+          {query}
+        </span>
+      </h2>
 
-      <div className="row g-3">
+      <div className="movies-container">
+        {movies.length === 0 && <p> Loading... </p>}
         {movies.length > 0 &&
-          movies.map((movie) => (
-            <div key={movie.id} className="col-lg-6 col-xl-4 d-flex">
-              <MovieCard key={movie.id} movie={movie} />
-            </div>
-          ))}
+          movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
       </div>
     </div>
-  )  
+  )
 }
-
 export default Search
