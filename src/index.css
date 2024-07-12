@@ -39,3 +39,8 @@ a{
   background-color: #121212;
   
 }
+
+
+.arrow-up{
+  z-index: 100;
+}
