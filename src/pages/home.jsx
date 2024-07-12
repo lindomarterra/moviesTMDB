@@ -17,12 +17,11 @@ const Home = () => {
 
   useEffect(() => {
     const topRatedUrl = `${movieURL}top_rated?${apiKey}`
-
     getTopRatedMovies(topRatedUrl)
   }, [])
 
   return (
-    <div className="container">
+    <div className="container position-relative">
       <h2 className="p-2 mt-3 fs-5"> 
         Rated movies 
       </h2>
