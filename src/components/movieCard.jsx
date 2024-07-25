@@ -12,12 +12,17 @@ const MovieCard = ({ movie, showLink = true }) => {
       <p>
         <FaStar /> {movie.vote_average}
       </p>
-      {showLink && <Link to={`/movie/${movie.id}`}  target='_self'  > DETAILS </Link>}
+      {showLink && (
+        <Link to={`/movie/${movie.id}`} target="_self">
+          {' '}
+          DETAILS{' '}
+        </Link>
+      )}
     </div>
   )
 }
 
 export default MovieCard
 MovieCard.propTypes = {
-  movie: propTypes.object()
+  movie: propTypes.object(),
 }.isRequired
