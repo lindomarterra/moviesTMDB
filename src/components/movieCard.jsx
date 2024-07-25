@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { FaStar } from 'react-icons/fa'
+import propTypes from 'prop-types'
 
 const imageUrl = import.meta.env.VITE_IMG
 
@@ -11,9 +12,12 @@ const MovieCard = ({ movie, showLink = true }) => {
       <p>
         <FaStar /> {movie.vote_average}
       </p>
-      {showLink && <Link to={`/movie/${movie.id}`}  target='_top'  > DETAILS </Link>}
+      {showLink && <Link to={`/movie/${movie.id}`}  target='_self'  > DETAILS </Link>}
     </div>
   )
 }
 
 export default MovieCard
+MovieCard.propTypes = {
+  movie: propTypes.object()
+}.isRequired
