@@ -24,5 +24,5 @@ const MovieCard = ({ movie, showLink = true }) => {
 
 export default MovieCard
 MovieCard.propTypes = {
-  movie: propTypes.object(),
+  movie: propTypes.any
 }.isRequired
